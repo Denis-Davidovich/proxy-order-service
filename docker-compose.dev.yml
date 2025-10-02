@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      target: dev
+    volumes:
+      - .:/app
+    environment:
+      - APP_ENV=dev
+      - XDEBUG_MODE=debug,coverage

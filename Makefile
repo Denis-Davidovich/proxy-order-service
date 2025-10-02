@@ -8,4 +8,4 @@ up: ## Запустить приложение
 	docker-compose up -d
 
 test: ## Запустить тесты
-	@echo "Tests not configured yet"
+	docker-compose exec app php vendor/bin/phpunit
