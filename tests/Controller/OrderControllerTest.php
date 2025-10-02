@@ -6,20 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class OrderControllerTest extends WebTestCase
 {
-    public function testGetOrders(): void
-    {
-        $client = static::createClient();
-        $client->request('GET', '/api/v1/orders');
-
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('Content-Type', 'application/json');
-
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertTrue($data['success']);
-        $this->assertIsArray($data['data']);
-        $this->assertGreaterThan(0, count($data['data']));
-    }
-
     public function testGetOrderStats(): void
     {
         $client = static::createClient();

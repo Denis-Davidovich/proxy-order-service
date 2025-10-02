@@ -13,16 +13,20 @@ class HomeController extends AbstractController
     {
         return $this->json([
             'service' => 'Order Service API',
-            'version' => '1.0.0',
             'description' => 'Простой сервис для работы с заказами (REST + SOAP)',
             'base_url' => 'http://localhost:8080',
             'endpoints' => [
                 [
                     'number' => 1,
                     'method' => 'GET',
-                    'path' => '/api/v1/orders',
-                    'description' => 'Получение списка всех заказов',
-                    'example' => 'curl http://localhost:8080/api/v1/orders'
+                    'path' => '/api/v1/endpoint-1',
+                    'description' => 'Получение цены плитки с tile.expert',
+                    'parameters' => [
+                        'factory' => 'string (required) - название фабрики',
+                        'collection' => 'string (required) - название коллекции',
+                        'article' => 'string (required) - артикул товара'
+                    ],
+                    'example' => 'curl "http://localhost:8080/api/v1/endpoint-1?factory=cobsa&collection=manual&article=manu7530bcbm-manualbaltic7-5x30"'
                 ],
                 [
                     'number' => 2,

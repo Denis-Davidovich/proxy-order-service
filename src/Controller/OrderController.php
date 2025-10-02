@@ -12,24 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class OrderController extends AbstractController
 {
     /**
-     * Эндпоинт №1 - GET запрос - получение списка заказов
-     */
-    #[Route('/orders', name: 'orders_list', methods: ['GET'])]
-    public function getOrders(): JsonResponse
-    {
-        $orders = [
-            ['id' => 1, 'customer' => 'Иван Иванов', 'amount' => 1500, 'date' => '2024-01-15'],
-            ['id' => 2, 'customer' => 'Петр Петров', 'amount' => 2300, 'date' => '2024-02-20'],
-            ['id' => 3, 'customer' => 'Сидор Сидоров', 'amount' => 1800, 'date' => '2024-03-10'],
-        ];
-
-        return $this->json([
-            'success' => true,
-            'data' => $orders
-        ]);
-    }
-
-    /**
      * Эндпоинт №2 - GET запрос с пагинацией и группировкой
      * Параметры: page, per_page, group_by (day|month|year)
      */
