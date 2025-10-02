@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env.local
+var/
+vendor/
+README.md
+docker-compose.yml
+Dockerfile
+Makefile

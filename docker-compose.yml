@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    volumes:
+      - .:/app
+    environment:
+      - APP_ENV=${APP_ENV:-prod}
+      - APP_SECRET=${APP_SECRET:-change_this_secret}
+      - SERVER_PORT=${SERVER_PORT:-8080}
+    restart: unless-stopped
