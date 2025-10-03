@@ -16,6 +16,6 @@ class HomeControllerTest extends WebTestCase
 
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Order Service API', $data['service']);
-        $this->assertCount(4, $data['endpoints']);
+        $this->assertCount(5, $data['endpoints']);
     }
 }

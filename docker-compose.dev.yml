@@ -7,3 +7,9 @@ services:
     environment:
       - APP_ENV=dev
       - XDEBUG_MODE=debug,coverage
+      - PHP_IDE_CONFIG=serverName=proxy.orders.docker
+      - DATABASE_URL=mysql://order_user:order_pass@mysql:3306/order_db?serverVersion=8.0
+
+  mysql:
+    ports:
+      - 127.0.0.1:3306:3306

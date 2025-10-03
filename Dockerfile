@@ -1,6 +1,12 @@
 # Base stage - общие зависимости
 FROM php:8.4-cli-alpine AS base
 
+# Установка системных зависимостей и PDO MySQL SOAP
+RUN apk add \
+    mysql-client \
+    libxml2-dev \
+    && docker-php-ext-install pdo pdo_mysql soap
+
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -31,7 +37,7 @@ CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
 FROM base AS dev
 
 # Установка зависимостей для сборки xdebug
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --virtual .build-deps \
     $PHPIZE_DEPS \
     linux-headers && \
     pecl install xdebug && \

@@ -5,10 +5,29 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use OpenApi\Attributes as OA;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home', methods: ['GET'])]
+    #[OA\Get(
+        summary: 'Главная страница API',
+        description: 'Получение информации о доступных эндпоинтах API',
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Успешный ответ с информацией о сервисе',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'service', type: 'string', example: 'Order Service API'),
+                        new OA\Property(property: 'description', type: 'string', example: 'Простой сервис для работы с заказами (REST + SOAP)'),
+                        new OA\Property(property: 'base_url', type: 'string', example: 'http://localhost:8080')
+                    ]
+                )
+            )
+        ]
+    )]
     public function index(): JsonResponse
     {
         return $this->json([
@@ -30,6 +49,28 @@ class HomeController extends AbstractController
                 ],
                 [
                     'number' => 2,
+                    'method' => 'POST',
+                    'path' => '/api/v1/orders',
+                    'description' => 'Создание заказа через REST запрос',
+                    'content_type' => 'application/json',
+                    'parameters' => [
+                        'name' => 'string (required) - название заказа',
+                        'client_name' => 'string (optional) - имя клиента',
+                        'email' => 'string (optional) - email клиента',
+                        'description' => 'string (optional) - описание заказа',
+                        'status' => 'int (optional) - статус заказа'
+                    ],
+                    'example' => 'curl -X POST http://localhost:8080/api/v1/orders -H "Content-Type: application/json" -d \'{"name":"Test Order","client_name":"John Doe","email":"john@example.com"}\''
+                ],
+                [
+                    'number' => 3,
+                    'method' => 'GET',
+                    'path' => '/api/v1/orders/{id}',
+                    'description' => 'Получение одного заказа по ID',
+                    'example' => 'curl http://localhost:8080/api/v1/orders/1'
+                ],
+                [
+                    'number' => 4,
                     'method' => 'GET',
                     'path' => '/api/v1/orders/stats',
                     'description' => 'Статистика заказов с пагинацией и группировкой',
@@ -41,19 +82,12 @@ class HomeController extends AbstractController
                     'example' => 'curl "http://localhost:8080/api/v1/orders/stats?page=1&per_page=5&group_by=month"'
                 ],
                 [
-                    'number' => 3,
+                    'number' => 5,
                     'method' => 'POST',
-                    'path' => '/api/v1/soap/orders',
+                    'path' => '/api/v1/soap/order',
                     'description' => 'Создание заказа через SOAP запрос',
                     'content_type' => 'text/xml',
-                    'example' => 'curl -X POST http://localhost:8080/api/v1/soap/orders -H "Content-Type: text/xml" -d \'<?xml version="1.0"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><CreateOrder><Customer>Test</Customer></CreateOrder></soap:Body></soap:Envelope>\''
-                ],
-                [
-                    'number' => 4,
-                    'method' => 'GET',
-                    'path' => '/api/v1/orders/{id}',
-                    'description' => 'Получение одного заказа по ID',
-                    'example' => 'curl http://localhost:8080/api/v1/orders/1'
+                    'example' => 'curl -X POST http://localhost:8080/api/v1/soap/order -H "Content-Type: text/xml" -d \'<?xml version="1.0"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><CreateOrder><product>Test Product</product><quantity>5</quantity><address>Test Address</address></CreateOrder></soap:Body></soap:Envelope>\''
                 ]
             ],
             'management' => [

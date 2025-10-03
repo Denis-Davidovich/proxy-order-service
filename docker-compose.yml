@@ -11,4 +11,23 @@ services:
       - APP_ENV=prod
       - APP_SECRET=${APP_SECRET:-change_this_secret}
       - SERVER_PORT=${SERVER_PORT:-8080}
+      - DATABASE_URL=mysql://order_user:order_pass@mysql:3306/order_db?serverVersion=8.0.43
+    depends_on:
+      - mysql
     restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: order-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: order_db
+      MYSQL_USER: order_user
+      MYSQL_PASSWORD: order_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docs/02.database/01.dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
